@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hydrophone-downloader"
+version="0.1.0"
+description = "A CLI tool for downloading hydrophone data based on location and time bounds."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name="Bret Nestor", email="bnestor@github.com" }
+]
+
+# Dependencies
+dependencies = [
+    "hydra-core",
+    "python-dotenv",
+    "requests",
+    "obspy",
+    "gitpython",
+    "onc",
+    "ffmpeg",
+    "bs4",
+    "polars",
+    "boto3",
+    "tqdm"
+]
+
+# Entry points to expose command-line interfaces
+[project.scripts]
+hydrophone-downloader = "hydrophone_downloader.cli:main"
+hydrophone-downloader-set-token = "hydrophone_downloader.cli:set_token"
+
+[tool.setuptools]
+packages = ["hydrophone_downloader", "supported_classes"]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.package-data]
+"hydrophone_downloader" = ["configs/*.yaml"]
+
+[tool.hydra]
+default_config_dir = "src/configs"
+
+[tool.hydra.defaults]
+configs = ["config.yaml", "token_config.yaml"]
+
+[tool.hydra.run]
+config_file = "config.yaml"
+
+[tool.hydra.token]
+token_file = "token_config.yaml"
