@@ -68,7 +68,7 @@ class OOIStreamingClass(BaseStreamingClass):
         self.built_in_delay = 30 # minutes
 
 
-    def _most_recent_file_date(self):
+    def _most_recent_file_date(self, return_file: bool = False) -> datetime:
         """
         return the datetime object of the most recent file in the save_dir
         """
@@ -80,7 +80,7 @@ class OOIStreamingClass(BaseStreamingClass):
         if max_time.tzinfo is None:
             max_time = max_time.replace(tzinfo=timezone.utc)
 
-
+        max_file = None
         for file in all_files:
 
             try:
@@ -92,6 +92,11 @@ class OOIStreamingClass(BaseStreamingClass):
                 this_time = this_time.replace(tzinfo=timezone.utc)
             if this_time > max_time:
                 max_time = this_time
+                max_file = file
+
+        if return_file:
+            return max_time, max_file
+
 
         return max_time
 
@@ -196,6 +201,21 @@ class OOIStreamingClass(BaseStreamingClass):
                 f.write(bibtex)
 
         return fetched_results
+    
+    def latest_file(self) -> None:
+        """
+        Log the most recent audio file to a file for streaming purposes.
+        """
+        # get the most recent file in the save_dir
+        this_time, max_file = self._most_recent_file_date(return_file=True)
+
+
+
+        # save the filename in a text file called latest.txt
+        with open(os.path.join(self.save_dir, 'latest.txt'), 'w+') as f:
+            f.write(max_file.replace(self.save_dir, '').strip('/')) # remove the save_dir and .flac extension
+
+        return
 
 
 

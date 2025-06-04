@@ -65,6 +65,8 @@ class ONCStreamingClass(BaseStreamingClass):
 
         print(self.save_dir)
 
+        
+
         self.onc = ONC(token=token,
                        outPath=self.save_dir,)
 
@@ -75,7 +77,10 @@ class ONCStreamingClass(BaseStreamingClass):
 
         self.built_in_delay = 60 # minutes, this is the built in delay for the ONC hydrophone data
 
-    def get_citation(self) -> str:
+        if not(os.path.exists(os.path.join(self.save_dir, 'reference.bib'))):
+            self.get_citation()
+
+    def get_citation(self) -> None:
         """
         """
         assert 'deviceCode' in self.hydrophone_identifier.keys(), "Hydrophone identifier must contain 'deviceCode' key."
@@ -99,7 +104,16 @@ class ONCStreamingClass(BaseStreamingClass):
                 print ('Error {} - {}'.format(response.status_code,response.reason))
 
 
-        if not(os.path.exists(os.patj.join(self.save_dir, 'reference.bib'))):
+        correct_deployment = [d for d in response.json() if d['end'] is None][0] # no end time means it is currently deployed
+
+
+        citation = correct_deployment['citation']['citation']
+        print(citation)
+
+        
+
+
+        if not(os.path.exists(os.path.join(self.save_dir, 'reference.bib'))):
             author, year, title, journal, doi = citation.split('. ')
             citation = "@misc{"+self.save_dir.split('/')[-1]+", author={"+author+"}, year={"+year+"}, title={"+title+"}, journal={"+journal+"}, doi={"+doi+"},}"
             with open(os.path.join(self.save_dir, 'reference.bib'), 'w') as f:
@@ -228,3 +242,33 @@ class ONCStreamingClass(BaseStreamingClass):
         
 
         return fetched_results
+    
+    def latest_file(self) -> None:
+        """
+        Get the latest file in the save directory.
+
+        Returns:
+            str: Path to the latest file.
+        """
+        all_files = glob.glob(os.path.join(self.save_dir, '*.flac'))
+        if len(all_files) == 0:
+            return None
+        
+        latest_file = (None, None)
+
+        for filename in all_files:
+            this_time = datetime.fromisoformat(re.search(r'\d{4}\d{2}\d{2}T\d{2}\d{2}\d{2}\.\d{3}Z', os.path.basename(filename)).group(0))
+            if this_time.tzinfo is None:
+                this_time = this_time.replace(tzinfo=timezone.utc)
+            if latest_file[1] is None:
+                latest_file = (filename, this_time)
+            elif this_time > latest_file[1]:
+                latest_file = (filename, this_time)
+
+
+        # save the filename in a text file called latest.txt
+        with open(os.path.join(self.save_dir, 'latest.txt'), 'w+') as f:
+            f.write(latest_file[0].replace(self.save_dir, '').strip('/'))
+
+        return
+            

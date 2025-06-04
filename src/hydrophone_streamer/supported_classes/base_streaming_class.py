@@ -19,7 +19,20 @@ class BaseStreamingClass:
         
         """
         """
-        pass        
+        pass      
+
+    def latest_file(self) -> None:
+        """
+        log the most recent audio file to a file for streaming purposes
+        """  
+        raise NotImplementedError("This method should be implemented in the subclass.")
+    
+    def download_data(self) -> list:
+        """
+        Download data from the hydrophone source.
+        This method should be implemented in the subclass.
+        """
+        raise NotImplementedError("This method should be implemented in the subclass.")
         
     def stream_data(self) -> None:
         """
@@ -28,12 +41,15 @@ class BaseStreamingClass:
         while True:
 
             fetched_results = self.download_data()
+            
 
 
             print(f'fetched as recent as {datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")}')
 
             if len(fetched_results) == 0:
                 time.sleep(10)
+            else:
+                self.latest_file()
 
 
     def clean_old_files(self) -> None:
