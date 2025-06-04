@@ -30,7 +30,7 @@ class BaseStreamingClass:
             fetched_results = self.download_data()
 
 
-            print(f'fetched as recent as {datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")}')
+            print(f'fetched as recent as {datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")}')
 
             if len(fetched_results) == 0:
                 time.sleep(10)

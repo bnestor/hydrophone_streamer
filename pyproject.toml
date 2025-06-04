@@ -3,9 +3,9 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "hydrophone-downloader"
+name = "hydrophone-streamer"
 version="0.1.0"
-description = "A CLI tool for downloading hydrophone data based on location and time bounds."
+description = "A CLI tool for streaming hydrophone data based on location and time bounds."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
@@ -30,16 +30,16 @@ dependencies = [
 
 # Entry points to expose command-line interfaces
 [project.scripts]
-hydrophone-downloader = "hydrophone_downloader.cli:main"
-hydrophone-downloader-set-token = "hydrophone_downloader.cli:set_token"
+hydrophone-streamer = "hydrophone_streamer.cli:main"
+hydrophone-streamer-set-token = "hydrophone_streamer.cli:set_token"
 
 [tool.setuptools]
-packages = ["hydrophone_downloader", "supported_classes"]
+packages = ["hydrophone_streamer"]
 package-dir = {"" = "src"}
 include-package-data = true
 
 [tool.setuptools.package-data]
-"hydrophone_downloader" = ["configs/*.yaml"]
+"hydrophone_streamer" = ["configs/*.yaml"]
 
 [tool.hydra]
 default_config_dir = "src/configs"

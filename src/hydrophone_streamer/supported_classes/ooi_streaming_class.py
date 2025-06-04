@@ -3,7 +3,7 @@ OOI Streaming Class
 """
 
 
-from supported_classes.base_streaming_class import BaseStreamingClass
+from hydrophone_streamer.supported_classes.base_streaming_class import BaseStreamingClass
 
 from datetime import datetime, timedelta, timezone
 
@@ -224,32 +224,13 @@ def mseed2flac(filenames):
         st.write(filename.replace('mseed','wav'), format='WAV', framerate=sample_rate)
         # by default say no to overwrite
 
-        # try:            
         os.system('ffmpeg -n -i '+filename.replace(' ', '\ ').replace('mseed','wav')+' -c:a flac '+filename.replace(' ', '\ ').replace('mseed','flac')+"&& rm "+filename.replace(' ', '\ ').replace('mseed','wav'))
         assert not(os.path.exists(filename.replace(' ', '\ ').replace('mseed','wav'))) # likely no system ffmpeg installed
-        # except:
-        #     # ffmpeg not found on system, using python-ffmpeg
-        #     ffmpeg = (
-        #         FFmpeg()
-        #         .option("n")
-        #         .input(filename.replace(' ', '\ ').replace('mseed','wav')) # input name
-        #         .output(
-        #             filename.replace(' ', '\ ').replace('mseed','flac'), # output name
-        #             c='flac', # codec
-        #             acodec='flac', # audio codec
-        #         )
-        #     )
-
-        #     ffmpeg.execute()
-
-        #     # remove the wav file
-        #     os.remove(filename.replace(' ', '\ ').replace('mseed','wav'))
+        
 
         # os.system('rm '+filename.replace(' ', '\ ').replace('mseed','wav'))
         os.system('rm '+filename.replace(' ', '\ ')) # also remove mseed file
 
-        # except:
-        #     print('Failed to convert '+filename)
-        #     continue
+
 
 
