@@ -36,6 +36,19 @@ hydrophone-streamer save_dir=/home/user/Downloads/onc_stream_ICLISTENHF6095 stre
 hydrophone-streamer save_dir=/home/user/Downloads/ooi_stream stream_setting={'url':'https://rawdata-west.oceanobservatories.org/files/CE02SHBP/LJ01D/HYDBBA106/'} hydrophone_network="ooi"
 ```
 
+## Run with Docker instead
+You may download docker desktop here: [https://docs.docker.com/desktop/](https://docs.docker.com/desktop/)
+
+This assumes you have already entered your ONC_TOKEN, alternatively, you can just copy and paste it in place of `$ONC_TOKEN` below.
+Please edit `DOWNLOAD_FOLDER` to represent where you would like to save data on your computer.
+```
+docker build . -t hydrophone_streamer
+export $(cat .env | xargs)
+export DOWNLOAD_FOLDER=/path/to/storage/
+docker run --rm -it -v $DOWNLOAD_FOLDER:/data/ -e ONC_TOKEN=$ONC_TOKEN hydrophone_streamer:latest hydrophone-streamer save_dir=/data/ooi_stream stream_setting={'url':'https://rawdata-west.oceanobservatories.org/files/CE02SHBP/LJ01D/HYDBBA106/'} hydrophone_network="ooi"
+docker run --rm -it -v $DOWNLOAD_FOLDER:/data/ -e ONC_TOKEN=$ONC_TOKEN hydrophone_streamer:latest hydrophone-streamer save_dir=/data/onc_stream_ICLISTENHF6095 stream_setting={'deviceCode':'ICLISTENHF6095'} hydrophone_network="onc"
+```
+
 ## Supported Hydrophone Sources
 - Ocean Networks Canada: [https://www.oceannetworks.ca/](https://www.oceannetworks.ca/)
 - Ocean Observatories Initiative: [https://oceanobservatories.org/](https://oceanobservatories.org/)
@@ -43,7 +56,6 @@ hydrophone-streamer save_dir=/home/user/Downloads/ooi_stream stream_setting={'ur
 ## Coming Soon
 - Option to delete older files
 - File pointing to the latest downloaded file for streaming
-- Docker support for handling failures due to connectivity issues
 
 ## Contributing
 If you have a hydrophone source, create a custom class that inherits from `src/hydrophone_streamer/supported_classes/base_streaming_class.py`. If token-access is required, you may need to modify the `src/configs/token_config.yaml` as well.

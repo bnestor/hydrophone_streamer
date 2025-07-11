@@ -68,7 +68,7 @@ class OOIStreamingClass(BaseStreamingClass):
         self.built_in_delay = 30 # minutes
 
 
-    def _most_recent_file_date(self, return_file: bool = False) -> datetime:
+    def _most_recent_file_date(self, return_file: bool = False):
         """
         return the datetime object of the most recent file in the save_dir
         """
