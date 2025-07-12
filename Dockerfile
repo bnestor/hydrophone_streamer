@@ -5,12 +5,14 @@ FROM python:3.11-slim AS pyenv
 RUN apt-get update -y && apt-get install git ffmpeg wget -y
 
 # copy the code into the necessary directory
-WORKDIR /app
+WORKDIR /hydrophone_streamer
 
-COPY ./ /app/
+COPY ./ /hydrophone_streamer/
+
 
 # install the downloader scripts
 RUN pip install .
+
 
 
 # docker build . -t hydrophone_streamer

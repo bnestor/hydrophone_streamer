@@ -34,15 +34,17 @@ hydrophone-streamer = "hydrophone_streamer.cli:main"
 hydrophone-streamer-set-token = "hydrophone_streamer.cli:set_token"
 
 [tool.setuptools]
-packages = ["hydrophone_streamer"]
 package-dir = {"" = "src"}
 include-package-data = true
+
+[tools.setuptools.packages.find]
+where = ["src"]
 
 [tool.setuptools.package-data]
 "hydrophone_streamer" = ["configs/*.yaml"]
 
 [tool.hydra]
-default_config_dir = "src/configs"
+default_config_dir = "src/hydrophone_streamer/configs"
 
 [tool.hydra.defaults]
 configs = ["config.yaml", "token_config.yaml"]
