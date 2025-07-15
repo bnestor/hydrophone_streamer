@@ -19,7 +19,7 @@ from hydrophone_streamer.streamer import stream_data
 
 LOCAL_PATH = os.path.abspath(__file__)
 print(LOCAL_PATH)
-CONFIG_PATH = os.path.join(os.path.dirname(os.path.dirname(LOCAL_PATH)), 'configs')
+CONFIG_PATH = os.path.join(os.path.dirname(os.path.dirname(LOCAL_PATH)), 'hydrophone_streamer','configs')
 
 print(CONFIG_PATH)
 
