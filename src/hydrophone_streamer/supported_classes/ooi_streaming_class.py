@@ -50,7 +50,7 @@ class OOIStreamingClass(BaseStreamingClass):
                 
         self.url = self.hydrophone_identifier['url']
 
-        assert self.url.startswith('https://rawdata-west.oceanobservatories.org/files/'), "URL is not recognised for OOI"
+        assert self.url.startswith('https://rawdata.oceanobservatories.org/files/'), "URL is not recognised for OOI"
         # assert that url is a valid URL
         response = requests.get(self.url)
         if response.status_code != 200:
