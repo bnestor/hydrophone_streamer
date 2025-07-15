@@ -33,7 +33,7 @@ Open up a terminal or command prompt and type:
 hydrophone-streamer save_dir=/home/user/Downloads/onc_stream_ICLISTENHF6095 stream_setting={'deviceCode':'ICLISTENHF6095'} hydrophone_network="onc"
 
 # for OOI you must specify a url
-hydrophone-streamer save_dir=/home/user/Downloads/ooi_stream stream_setting={'url':'https://rawdata-west.oceanobservatories.org/files/CE02SHBP/LJ01D/HYDBBA106/'} hydrophone_network="ooi"
+hydrophone-streamer save_dir=/home/user/Downloads/ooi_stream stream_setting={'url':'https://rawdata.oceanobservatories.org/files/CE02SHBP/LJ01D/HYDBBA106/'} hydrophone_network="ooi"
 ```
 
 ## Run with Docker instead
