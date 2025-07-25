@@ -75,7 +75,7 @@ class ONCStreamingClass(BaseStreamingClass):
 
         self.api_url = 'https://data.oceannetworks.ca/api/deployments'
 
-        self.built_in_delay = 60 # minutes, this is the built in delay for the ONC hydrophone data
+        self.built_in_delay = 6*60 # minutes, this is the built in delay for the ONC hydrophone data
 
         if not(os.path.exists(os.path.join(self.save_dir, 'reference.bib'))):
             self.get_citation()
@@ -228,6 +228,9 @@ class ONCStreamingClass(BaseStreamingClass):
                 try:
                     print(filters)
                     result  = self.onc.orderDataProduct(filters, includeMetadataFile=False)
+                    print("results", results)
+                    if len(result['files']) == 0:
+                        continue
                     # save the filters to json in fname
                     with open(os.path.join(self.save_dir, 'filters.json'), 'w') as f:
                         json.dump(filters, f)
